@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import redirect
+
 from RecipeApplication.views import recipe_detail, delete_recipe, update_recipe, create_recipe, login_page, register_page, logout_page, show_details
 
 urlpatterns = [
@@ -28,4 +30,7 @@ urlpatterns = [
     path("login/", login_page, name='login_page'),
     path("register/", register_page, name='register_page'),
     path("logout/", logout_page, name='logout_page'),
+    # Redirect empty path to login page
+    path('', lambda request: redirect('login_page')),
+
 ]
