@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block start %}
+
+
+<div class="container ">
+    <form class='col-8 mx-auto' method="post">
+        {% csrf_token %}
+        <a href="/recipe_detail/" class="btn btn-success col-2 mb-3">Back</a>
+        <h2>Add Recipe</h2>
+        <hr>
+
+        <div class="row ">
+            <div class="col-md-12 mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input required name="title" type="text" class="form-control" id="title" >
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="cooking_time" class="form-label">Cooking time</label>
+                <input required name="cooking_time" type="number" class="form-control" id="cooking_time" >
+              </div>
+      
+              <div class="col-md-6 mb-3">
+                <label for="serving_size" class="form-label">Serving size</label>
+                <input required name="serving_size" type="number" class="form-control" id="serving_size" >
+              </div>
+      
+      
+              <div class="col-md-6 mb-3">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea required name="description" type="text" class="form-control" id="description" ></textarea>
+              </div>
+      
+              <div class="col-md-6 mb-3">
+                  <label for="ingredients" class="form-label">Ingredients</label>
+                  <textarea required name="ingredients" type="text" class="form-control" id="ingredients" ></textarea>
+              </div>
+      
+              <div class="col-md-6 mb-3">
+                <label for="preparation_steps" class="form-label">Preparation steps</label>
+                <textarea required name="preparation_steps" type="text" class="form-control" id="preparation_steps" ></textarea>
+              </div>
+
+              <div class="col-md-6 mb-3 mt-2">
+                <label for="category" class="form-label">Category</label>
+                <select  name="category" id="category" class="form-select form-select-md" aria-label="Large select example" required>
+                    <option value="" selected>Select Category</option>
+                    <option value="1">Starters</option>
+                    <option value="2">Main Courses</option>
+                    <option value="3">Desserts</option>
+                  </select>
+              </div>
+      
+
+      
+              <div class="col-md-12 mb-3">
+                <button type="submit" class="btn btn-primary col-md-12">Add Recipe</button>
+              </div>
+              
+
+        </div>
+       
+      </form>
+
+</div>
+{% endblock%}

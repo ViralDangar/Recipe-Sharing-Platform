@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block start %}
+
+
+<div class="container">
+    <form class='col-8 mx-auto' method="post">
+        {% csrf_token %}
+        <a href="/recipe_detail/" class="btn btn-success col-2 mb-3">Back</a>
+        
+        <h2>{{recipe.title}} Details</h2>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label for="title" class="form-label"><b>Title</b></label>
+                <div>{{recipe.title}}</div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <label for="cooking_time" class="form-label"><b>Cooking time</b></label>
+                <div>{{recipe.cooking_time}}</div>
+              </div>
+      
+              <div class="col-md-12 mb-3">
+                <label for="serving_size" class="form-label"><b>Serving size</b></label>
+                <div>{{recipe.serving_size}}</div>
+              </div>
+      
+      
+              <div class="col-md-12 mb-3">
+                  <label for="description" class="form-label"><b>Description</b></label>
+                  <div>{{recipe.description}}</div>
+              </div>
+      
+              <div class="col-md-12 mb-3">
+                  <label for="ingredients" class="form-label"><b>Ingredients</b> </label>
+                  <div>{{recipe.ingredients}}</div>
+              </div>
+      
+              <div class="col-md-12 mb-3">
+                  <label for="preparation_steps" class="form-label"><b>Preparation steps </b> </label>
+                  <div>{{recipe.preparation_steps}}</div>
+                </div>
+        
+
+                <div class="col-md-12 mb-3 mt-2">
+                    <label for="category" class="form-label"><b>Category </b> </label>
+
+                    {% if recipe.category is none %}<div>No Category</div>{% endif %}
+                    {% if recipe.category == 1 %}<div>Starters</div>{% endif %}
+                    {% if recipe.category == 2 %}<div>Main Course</div>{% endif %}
+                    {% if recipe.category == 3 %}<div>Dessert</div>{% endif %}
+                    
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label for="comment" class="form-label">WRITE YOUR REVIEW</label>
+                    <textarea required name="comment" type="text" class="form-control col-md-6" id="comment" placeholder="Your Review"></textarea>
+                </div>
+
+                <div class="col-md-6 mb-3 mt-2">
+                    <label for="rating" class="form-label">Rating</label>
+                    <select  name="rating" id="rating" class="form-select form-select-sm" aria-label="Large select example" required>
+                        <option value="" selected>Select rating</option>
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Star</option>
+                        <option value="3">3 Star</option>
+                        <option value="4">4 Star</option>
+                        <option value="5">5 Star</option>
+                      </select>
+                  </div>
+      
+                <div class="col-md-12 mb-3 mt-2">
+                    <button  type="submit" class="btn btn-warning col-md-6 ">Add Review</button>
+                </div>
+
+
+                <h4 class='mb-2'>TOP REVIEWS</h4>
+
+                {% for review in reviews %}
+                   {% if review.recipe.id == recipe.id %}
+                    <div class="col-md-12 mb-3">
+                        <b><p style="margin-bottom:0px;">{{review.user.username}}</p></b>
+                        <p style="margin-bottom:0px;">{{review.rating}} Star</p>
+                        {{review.comment}}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+              
+      
+        </div>
+    </form>
+
+</div>
+{% endblock%}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block start %}
+
+<div class="container col-md-12">
+
+  <div class="row mb-3">
+    <div class="col-md-4 mx-2">
+      <a href="/create_recipe/" class="btn btn-success col-4 mb-3">Create Recipe</a>
+    </div>
+    
+    <div class="col-md-12">
+      <form class="d-flex" role="search" method="post">
+        {% csrf_token %}
+
+        <div class="col-md-3 mx-2">
+          <select  name="category" id="category" class="form-select form-select-md" aria-label="Large select example" >
+              <option value="" selected>Select Category</option>
+              <option value="1">Starters</option>
+              <option value="2">Main Course</option>
+              <option value="3">Dessert</option>
+            </select>
+        </div>
+
+        <input class="form-control me-2" type="search" placeholder="Search Title or Ingredients" name="search" aria-label="Search">
+
+   
+        <button class="btn btn-outline-success" type="submit">Search</button>
+        
+      </form>
+      <p class="mx-2">Filter Category or Search</p>
+    </div>
+
+
+  </div>
+  {% comment %} <form class='col-8 mx-auto' method="post">
+    {% csrf_token %}
+    <h2>Add Recipe</h2>
+    <hr>
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input required name="title" type="text" class="form-control" id="title">
+    </div>
+
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea required name="description" type="text" class="form-control" id="description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="ingredients" class="form-label">Ingredients</label>
+      <textarea required name="ingredients" type="text" class="form-control" id="ingredients"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="preparation_steps" class="form-label">Preparation steps</label>
+      <textarea required name="preparation_steps" type="text" class="form-control" id="preparation_steps"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="cooking_time" class="form-label">Cooking time</label>
+      <input required name="cooking_time" type="number" class="form-control" id="cooking_time">
+    </div>
+
+    <div class="mb-3">
+      <label for="serving_size" class="form-label">Serving size</label>
+      <input required name="serving_size" type="number" class="form-control" id="serving_size">
+    </div>
+
+    <select name="category" id="category" class="form-select form-select-lg mb-3" aria-label="Large select example">
+      <option selected>Select Category</option>
+      <option value="1">Break Fast</option>
+      <option value="2">Lunch</option>
+      <option value="3">Dinner</option>
+    </select>
+
+
+    <button type="submit" class="btn btn-primary">Add Recipe</button>
+  </form> {% endcomment %}
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        {% comment %} <th scope="col">Description</th>
+        <th scope="col">Ingredients</th>
+        <th scope="col">Preparation steps</th> {% endcomment %}
+        <th scope="col">Cooking time</th>
+        <th scope="col">Serving size</th>
+        <th scope="col">Category</th>
+        <th scope="col">User</th>
+        <th scope="col">Average Rating</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for recipe in recipes %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{recipe.title}}</td>
+        {% comment %} <td>{{recipe.description}}</td>
+        <td>{{recipe.ingredients}}</td>
+        <td>{{recipe.preparation_steps}}</td> {% endcomment %}
+        <td>{{recipe.cooking_time}}</td>
+        <td>{{recipe.serving_size}}</td>
+        <td>{{recipe.category}}</td>
+        <td>{{recipe.user.username}}</td>
+        <td>{{recipe.avg}} {% if recipe.avg is not none %}Stars{% endif %} </td>
+        <td>
+          <a href="/delete_recipe/{{recipe.id}}/" class="btn btn-danger col-3">Delete</a>
+          <a href="/update_recipe/{{recipe.id}}/" class="btn btn-primary col-3">Update</a>
+          <a href="/show_details/{{recipe.id}}/" class="btn btn-secondary col-3">Details</a>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+{% endblock%}
+
+{% comment %} {% extends "base.html" %}
+
+{% block title %}{{ recipe.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ recipe.title }}</h2>
+<p>{{ recipe.description }}</p>
+<p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+<p><strong>Preparation Steps:</strong> {{ recipe.preparation_steps }}</p>
+<p><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
+<p><strong>Serving Size:</strong> {{ recipe.serving_size }} servings</p>
+<p><strong>Category:</strong> {{ recipe.category.name }}</p>
+<p><strong>Average Rating:</strong> {{ recipe.average_rating }}</p>
+
+<h3>Reviews</h3>
+{% for review in reviews %}
+<div>
+  <p><strong>{{ review.user.username }}:</strong> {{ review.comment }} ({{ review.rating }})</p>
+</div>
+{% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'add_review' recipe.id %}">Add Review</a>
+{% endif %}
+
+{% if user == recipe.user %}
+<a href="{% url 'recipe_update' recipe.pk %}">Edit</a>
+<form action="{% url 'recipe_delete' recipe.pk %}" method="post" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit">Delete</button>
+</form>
+{% endif %}
+{% endblock %} {% endcomment %}
